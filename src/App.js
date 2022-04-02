@@ -2,15 +2,14 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 
-console.log(process.env.REACT_APP_BACKEND_URL);
-console.log(process.env);
 // console.log($REACT_APP_BACKEND_URL);
 
 function App() {
-   	const [data, setData] = useState([]);
-
+  const [data, setData] = useState([]);
+  console.log(process.env.REACT_APP_BACKEND_URL);
+  console.log(process.env);
 	useEffect(() => {
-		fetch("$REACT_APP_BACKEND_URL")
+		fetch("https://backend-fkuvtdnqxq-uc.a.run.app")
 		 .then((res) => res.json())
       		 .then((result) => setData(result))
       		 .catch((err) => console.log(err));
