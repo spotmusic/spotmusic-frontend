@@ -95,6 +95,8 @@ jobs:
         uses: 'google-github-actions/deploy-cloudrun@v0'
 
       - name: Deploy to Cloud Run
+        env:
+          ARTIFACT_REGISTRY: ${{ secrets.ARTIFACT_REGISTRY }}
         run: |
           gcloud run deploy frontend --quiet --image ${{ secrets.ARTIFACT_REGISTRY }}/frontend:latest --project hackathon-6aso-grupo-08 --region us-central1 --platform managed
 
