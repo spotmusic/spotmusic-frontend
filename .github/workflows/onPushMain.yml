@@ -56,6 +56,8 @@ jobs:
 #          sed -i "s/licensekey/${{ secrets.NEW_RELIC_LICENSE_KEY }}/g" Dockerfile
 
       - name: Build Image
+        env:
+          ARTIFACT_REGISTRY: ${{ secrets.ARTIFACT_REGISTRY }}
         run: |
           docker build -t ${{ secrets.ARTIFACT_REGISTRY }}/frontend:latest .
 
