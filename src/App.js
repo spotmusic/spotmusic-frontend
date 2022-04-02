@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 
 console.log(process.env.REACT_APP_BACKEND_URL);
+console.log(process.env);
+console.log($REACT_APP_BACKEND_URL);
 
 function App() {
    	const [data, setData] = useState([]);
