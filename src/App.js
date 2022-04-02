@@ -4,13 +4,13 @@ import "./App.css";
 
 console.log(process.env.REACT_APP_BACKEND_URL);
 console.log(process.env);
-console.log($REACT_APP_BACKEND_URL);
+// console.log($REACT_APP_BACKEND_URL);
 
 function App() {
    	const [data, setData] = useState([]);
 
 	useEffect(() => {
-		fetch(process.env.REACT_APP_BACKEND_URL)
+		fetch("$REACT_APP_BACKEND_URL")
 		 .then((res) => res.json())
       		 .then((result) => setData(result))
       		 .catch((err) => console.log(err));
