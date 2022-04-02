@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  InstallDeps:
+  Tests:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,31 +17,13 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Cache project deps
-        uses: martijnhols/cache@read-only  # See https://github.com/actions/cache/pull/474
-        with:
-          path: node_modules
-          key: node-modules-${{ hashFiles('common/config/rush/pnpm-lock.yaml') }}
-          restore-keys: |
-            node-modules-
-          read-only: false
-
       - name: Install dependencies
         run: npm install
-
-  Tests:
-    needs: [ InstallDeps ]
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v2
 
       - name: Unit Test
         run: npm run ci:test
 
 #  SonarCloud:
-#    needs: [ InstallDeps ]
 #    name: SonarCloud
 #    runs-on: ubuntu-latest
 #    steps:
@@ -55,12 +37,19 @@ jobs:
 #          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   BuildAndPushImage:
-    needs: [ InstallDeps, Tests ] # todo: add SonarCloud
-    name: Build
+    needs: [ Tests ] # todo: add SonarCloud
+    name: BuildAndPushImage
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: npm install
 
 #      - name: New Relic License
 #        run: |
