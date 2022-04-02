@@ -29,13 +29,13 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-#  Tests:
-#    needs: [ InstallDeps ]
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - name: Unit Test
-#        run: npm test
+  Tests:
+    needs: [ InstallDeps ]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Unit Test
+        run: npm test
 
 #  SonarCloud:
 #    needs: [ InstallDeps ]
@@ -52,7 +52,7 @@ jobs:
 #          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   BuildAndPushImage:
-    needs: [ InstallDeps ] # todo: add Tests and SonarCloud
+    needs: [ InstallDeps, Tests ] # todo: add SonarCloud
     name: Build
     runs-on: ubuntu-latest
     steps:
