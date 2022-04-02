@@ -99,6 +99,3 @@ jobs:
         with:
           image: ${{ secrets.ARTIFACT_REGISTRY }}/frontend:latest
           service: 'frontend'
-
-      - name: Prod Check
-        run: 'curl "${{ steps.appengine.outputs.url }}"'
