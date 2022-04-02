@@ -100,3 +100,4 @@ jobs:
         with:
           image: ${{ secrets.ARTIFACT_REGISTRY }}/frontend:latest
           service: 'frontend'
+          env_vars: REACT_APP_BACKEND_URL=https://backend-fkuvtdnqxq-uc.a.run.app
