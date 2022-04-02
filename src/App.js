@@ -11,7 +11,7 @@ function App() {
 		fetch(BACKEND_URL)
 		 .then((res) => res.json())
       		 .then((result) => setData(result))
-      		 .catch((err) => console.log("error"));
+      		 .catch((err) => console.log(err));
 	}, []);
 
   return (
