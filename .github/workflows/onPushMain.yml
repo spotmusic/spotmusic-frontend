@@ -68,33 +68,28 @@ jobs:
           docker build -t ${{ secrets.ARTIFACT_REGISTRY }}/frontend:latest .
           docker push ${{ secrets.ARTIFACT_REGISTRY }}/frontend:latest
 
-#  Deploy:
-#    needs: BuildAndPushImage
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - name: Checkout Repo
-#        uses: actions/checkout@v2
-#
-#      - name: Deploy Heroku
-#        env:
-#          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-#        run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web
-#
-#      - name: Auth GCP AppEngine
-#        env:
-#          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-#        uses: 'google-github-actions/auth@v0'
-#        with:
-#          credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
-#
-#      - name: Deploy to App Engine
-#        id: appengine
-#        env:
-#          ARTIFACT_REGISTRY: ${{ secrets.ARTIFACT_REGISTRY }}
-#        uses: 'google-github-actions/deploy-appengine@v0'
-#        with:
-#          image_url: ${{ secrets.ARTIFACT_REGISTRY }}/myapp:latest
-#
-#      - name: Prod Check
-#        run: 'curl "${{ steps.appengine.outputs.url }}"'
+  Deploy:
+    needs: BuildAndPushImage
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+
+      - name: Auth GCP AppEngine
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+        uses: 'google-github-actions/auth@v0'
+        with:
+          credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
+
+      - name: Deploy to App Engine
+        id: appengine
+        env:
+          ARTIFACT_REGISTRY: ${{ secrets.ARTIFACT_REGISTRY }}
+        uses: 'google-github-actions/deploy-appengine@v0'
+        with:
+          image_url: ${{ secrets.ARTIFACT_REGISTRY }}/frontend:latest
+
+      - name: Prod Check
+        run: 'curl "${{ steps.appengine.outputs.url }}"'
