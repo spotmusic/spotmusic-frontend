@@ -96,6 +96,7 @@ jobs:
         uses: 'google-github-actions/deploy-cloudrun@v0'
         env:
           ARTIFACT_REGISTRY: ${{ secrets.ARTIFACT_REGISTRY }}
+          REACT_APP_BACKEND_URL: ${{ secrets.REACT_APP_BACKEND_URL }}
         with:
           image: ${{ secrets.ARTIFACT_REGISTRY }}/frontend:latest
           service: 'frontend'
