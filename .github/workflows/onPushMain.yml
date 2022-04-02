@@ -90,6 +90,10 @@ jobs:
 #        uses: 'google-github-actions/deploy-appengine@v0'
 #        with:
 #          image_url: ${{ secrets.ARTIFACT_REGISTRY }}/frontend:latest
+
+      - name: Set up GCloud
+        uses: 'google-github-actions/deploy-cloudrun@v0'
+
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy frontend --quiet --image ${{ secrets.ARTIFACT_REGISTRY }}/frontend:latest --project hackathon-6aso-grupo-08 --region us-central --platform managed
