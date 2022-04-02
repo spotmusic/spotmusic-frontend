@@ -9,7 +9,7 @@ function App() {
   console.log(process.env.REACT_APP_BACKEND_URL);
   console.log(process.env);
 	useEffect(() => {
-		fetch("$REACT_APP_BACKEND_URL")
+		fetch("https://backend-fkuvtdnqxq-uc.a.run.app")
 		 .then((res) => res.json())
       		 .then((result) => setData(result))
       		 .catch((err) => console.log(err));
