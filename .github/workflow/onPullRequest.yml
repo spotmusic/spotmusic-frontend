@@ -34,7 +34,7 @@ jobs:
 
     steps:
       - name: Unit Test
-        run: npm test
+        run: npm ci:test
 
 #  SonarCloud:
 #    needs: [ InstallDeps ]
