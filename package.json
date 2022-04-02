@@ -16,7 +16,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "ci:test": "react-scripts test --watchAll=false",
+    "ci:test": "REACT_APP_BACKEND_URL=https://backend-url react-scripts test --watchAll=false",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

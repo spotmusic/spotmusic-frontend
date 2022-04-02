@@ -5,22 +5,22 @@ on:
   workflow_dispatch:
 
 jobs:
-#  Tests:
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - name: Checkout Repo
-#        uses: actions/checkout@v2
-#
-#      - uses: actions/setup-node@v2
-#        with:
-#          node-version: '16'
-#
-#      - name: Install dependencies
-#        run: npm install
-#
-#      - name: Unit Test
-#        run: npm run ci:test
+  Tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Unit Test
+        run: npm run ci:test
 
 #  SonarCloud:
 #    name: SonarCloud
@@ -36,7 +36,7 @@ jobs:
 #          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   BuildImage:
-    # needs: [ Tests, SonarCloud ]
+    needs: [ Tests ] #SonarCloud
     name: Build
     runs-on: ubuntu-latest
     steps:

@@ -3,9 +3,6 @@ import App from './App';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 
-const BACKEND_URL = 'https://backend-url';
-process.env.REACT_APP_BACKEND_URL = BACKEND_URL;
-
 const data = [
     { song_id: 1, title: 'Era Uma Vez', artist: 'Kell Smith', genre: 'MPB' },
     { song_id: 2, title: 'Lua Cheia', artist: 'Armandinho', genre: 'Reggae' },
@@ -13,7 +10,7 @@ const data = [
 ];
 
 export const server = setupServer(
-    rest.get(BACKEND_URL, (req, res, ctx) => {
+    rest.get('https://backend-url', (req, res, ctx) => {
       return res(ctx.status(200), ctx.json(data));
     }),
 );
