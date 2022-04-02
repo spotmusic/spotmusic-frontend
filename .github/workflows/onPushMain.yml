@@ -50,6 +50,7 @@ jobs:
 
       - name: Build Image
         env:
+          REACT_APP_BACKEND_URL: ${{ secrets.REACT_APP_BACKEND_URL }}
           ARTIFACT_REGISTRY: ${{ secrets.ARTIFACT_REGISTRY }}
         run: |
           docker build -t ${{ secrets.ARTIFACT_REGISTRY }}/frontend:latest .
