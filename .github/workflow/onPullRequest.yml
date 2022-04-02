@@ -1,0 +1,67 @@
+name: On Pull Request
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  InstallDeps:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Cache project deps
+        uses: martijnhols/cache@read-only  # See https://github.com/actions/cache/pull/474
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('common/config/rush/pnpm-lock.yaml') }}
+          restore-keys: |
+            node-modules-
+          read-only: false
+
+      - name: Install dependencies
+        run: npm install
+
+#  Tests:
+#    needs: [ InstallDeps ]
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Unit Test
+#        run: npm test
+
+#  SonarCloud:
+#    needs: [ InstallDeps ]
+#    name: SonarCloud
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#        with:
+#          fetch-depth: 0
+#      - name: SonarCloud Scan
+#        uses: SonarSource/sonarcloud-github-action@master
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  BuildImage:
+    needs: [ InstallDeps ] # todo: add Tests and SonarCloud
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+
+      #      - name: New Relic License
+      #        run: |
+      #          sed -i "s/licensekey/${{ secrets.NEW_RELIC_LICENSE_KEY }}/g" Dockerfile
+
+      - name: Build Image
+        run: |
+          docker build -t ${{ secrets.ARTIFACT_REGISTRY }}/frontend:latest .

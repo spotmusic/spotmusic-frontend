@@ -51,19 +51,22 @@ jobs:
 #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-#  BuildAndPushImage:
-#    needs: [ InstallDeps ] # todo: add Tests and SonarCloud
-#    name: Build
-#    runs-on: ubuntu-latest
-#    steps:
-#
-#      - name: Checkout Repo
-#        uses: actions/checkout@v2
+  BuildAndPushImage:
+    needs: [ InstallDeps ] # todo: add Tests and SonarCloud
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
 
 #      - name: New Relic License
 #        run: |
 #          sed -i "s/licensekey/${{ secrets.NEW_RELIC_LICENSE_KEY }}/g" Dockerfile
-#
+
+      - name: Build Image
+        run: |
+          docker build -t ${{ secrets.ARTIFACT_REGISTRY }}/frontend:latest .
+
 #      - name: Docker Login
 #        env:
 #          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
@@ -71,12 +74,11 @@ jobs:
 #          echo '${{ secrets.GOOGLE_CREDENTIALS }}' > key.json
 #          cat key.json | docker login -u _json_key --password-stdin https://us-central1-docker.pkg.dev/
 #
-#      - name: Build Image & Push
+#      - name: Push Image
 #        env:
 #          ARTIFACT_REGISTRY: ${{ secrets.ARTIFACT_REGISTRY }}
 #        run: |
-#          docker build -t ${{ secrets.ARTIFACT_REGISTRY }}/myapp:latest .
-#          docker push ${{ secrets.ARTIFACT_REGISTRY }}/myapp:latest
+#          docker push ${{ secrets.ARTIFACT_REGISTRY }}/frontend:latest
 
 #  Deploy:
 #    needs: BuildAndPushImage
