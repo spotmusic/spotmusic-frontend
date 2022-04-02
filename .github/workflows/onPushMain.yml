@@ -54,18 +54,19 @@ jobs:
         run: |
           docker build -t ${{ secrets.ARTIFACT_REGISTRY }}/frontend:latest .
 
-#      - name: Docker Login
-#        env:
-#          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-#        run: |
-#          echo '${{ secrets.GOOGLE_CREDENTIALS }}' > key.json
-#          cat key.json | docker login -u _json_key --password-stdin https://us-central1-docker.pkg.dev/
-#
-#      - name: Push Image
-#        env:
-#          ARTIFACT_REGISTRY: ${{ secrets.ARTIFACT_REGISTRY }}
-#        run: |
-#          docker push ${{ secrets.ARTIFACT_REGISTRY }}/frontend:latest
+      - name: Docker Login
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+        run: |
+          echo '${{ secrets.GOOGLE_CREDENTIALS }}' > key.json
+          cat key.json | docker login -u _json_key --password-stdin https://us-central1-docker.pkg.dev/
+
+      - name: Push Image
+        env:
+          ARTIFACT_REGISTRY: ${{ secrets.ARTIFACT_REGISTRY }}
+        run: |
+          docker build -t ${{ secrets.ARTIFACT_REGISTRY }}/frontend:latest .
+          docker push ${{ secrets.ARTIFACT_REGISTRY }}/frontend:latest
 
 #  Deploy:
 #    needs: BuildAndPushImage
