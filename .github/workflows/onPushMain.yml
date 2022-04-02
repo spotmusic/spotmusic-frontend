@@ -91,14 +91,13 @@ jobs:
 #        with:
 #          image_url: ${{ secrets.ARTIFACT_REGISTRY }}/frontend:latest
 
-      - name: Set up GCloud
+      - name: 'Deploy to Cloud Run'
         uses: 'google-github-actions/deploy-cloudrun@v0'
-
-      - name: Deploy to Cloud Run
         env:
           ARTIFACT_REGISTRY: ${{ secrets.ARTIFACT_REGISTRY }}
-        run: |
-          gcloud run deploy frontend --quiet --image ${{ secrets.ARTIFACT_REGISTRY }}/frontend:latest --project hackathon-6aso-grupo-08 --region us-central1 --platform managed
+        with:
+          image: ${{ secrets.ARTIFACT_REGISTRY }}/frontend:latest
+          service: 'frontend'
 
       - name: Prod Check
         run: 'curl "${{ steps.appengine.outputs.url }}"'
